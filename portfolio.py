@@ -8,12 +8,11 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# --- CUSTOM CSS - PREMIUM DESIGN ---
+# --- CUSTOM CSS ---
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
     
-    /* === GLOBAL === */
     * {
         font-family: 'Inter', sans-serif;
         margin: 0;
@@ -25,11 +24,6 @@ st.markdown("""
         background: #0a0a0f;
     }
     
-    .main {
-        padding: 0 2rem;
-    }
-    
-    /* === ANIMATED BACKGROUND === */
     @keyframes gradientShift {
         0% { background-position: 0% 50%; }
         50% { background-position: 100% 50%; }
@@ -49,9 +43,8 @@ st.markdown("""
         animation: gradientShift 15s ease infinite;
     }
     
-    /* === HERO SECTION === */
     .hero {
-        padding: 5rem 0 3rem 0;
+        padding: 4rem 0 2rem 0;
         text-align: center;
         position: relative;
     }
@@ -68,23 +61,24 @@ st.markdown("""
         border: 1px solid rgba(108, 99, 255, 0.2);
         backdrop-filter: blur(10px);
         margin-bottom: 1.5rem;
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
     }
     
     .hero h1 {
         font-size: 4.5rem;
         font-weight: 900;
-        background: linear-gradient(135deg, #6C63FF 0%, #a78bfa 40%, #f472b6 70%, #fb923c 100%);
+        background: linear-gradient(135deg, #6C63FF 0%, #a78bfa 30%, #f472b6 60%, #fb923c 100%);
         background-size: 300% 300%;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         animation: gradientShift 6s ease infinite;
         line-height: 1.1;
         margin-bottom: 0.5rem;
-    }
-    
-    @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-10px); }
     }
     
     .hero .subtitle {
@@ -103,53 +97,94 @@ st.markdown("""
         line-height: 1.8;
     }
     
-    /* === GLOW BUTTONS === */
     .btn-group {
         display: flex;
         gap: 1rem;
         justify-content: center;
         flex-wrap: wrap;
+        margin: 1.5rem 0;
     }
     
     .btn-primary {
         display: inline-block;
-        padding: 0.8rem 2.5rem;
+        padding: 0.9rem 2.8rem;
         background: linear-gradient(135deg, #6C63FF, #8B5CF6);
         color: white !important;
         border-radius: 50px;
         font-weight: 600;
         text-decoration: none;
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         box-shadow: 0 4px 20px rgba(108, 99, 255, 0.3);
         border: none;
         cursor: pointer;
     }
     
     .btn-primary:hover {
-        transform: translateY(-3px) scale(1.02);
+        transform: translateY(-3px) scale(1.05);
         box-shadow: 0 8px 40px rgba(108, 99, 255, 0.5);
     }
     
     .btn-secondary {
         display: inline-block;
-        padding: 0.8rem 2.5rem;
+        padding: 0.9rem 2.8rem;
         background: rgba(255,255,255,0.05);
         color: #e0e0e0 !important;
         border-radius: 50px;
         font-weight: 600;
         text-decoration: none;
         border: 1px solid rgba(255,255,255,0.1);
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         backdrop-filter: blur(10px);
     }
     
     .btn-secondary:hover {
         background: rgba(255,255,255,0.1);
         border-color: rgba(108, 99, 255, 0.4);
-        transform: translateY(-3px);
+        transform: translateY(-3px) scale(1.05);
     }
     
-    /* === CONTACT BAR === */
+    .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+        margin: 2rem 0;
+    }
+    
+    .stat-card {
+        background: rgba(255,255,255,0.03);
+        padding: 1.5rem;
+        border-radius: 16px;
+        border: 1px solid rgba(255,255,255,0.06);
+        text-align: center;
+        transition: all 0.3s ease;
+        cursor: default;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-5px);
+        background: rgba(255,255,255,0.06);
+        border-color: rgba(108, 99, 255, 0.2);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    
+    .stat-number {
+        font-size: 2.8rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #6C63FF, #a78bfa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .stat-number.pink { background: linear-gradient(135deg, #f472b6, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .stat-number.orange { background: linear-gradient(135deg, #fb923c, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .stat-number.green { background: linear-gradient(135deg, #34d399, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    
+    .stat-label {
+        color: #808090;
+        font-size: 0.9rem;
+        margin-top: 0.3rem;
+    }
+    
     .contact-bar {
         display: flex;
         flex-wrap: wrap;
@@ -161,24 +196,25 @@ st.markdown("""
         border: 1px solid rgba(255,255,255,0.06);
         backdrop-filter: blur(20px);
         margin: 1rem 0 2rem;
+        transition: all 0.3s;
+    }
+    
+    .contact-bar:hover {
+        border-color: rgba(108, 99, 255, 0.15);
     }
     
     .contact-bar a, .contact-bar span {
         color: #a0a0b0;
         text-decoration: none;
         font-size: 0.95rem;
-        transition: color 0.3s;
+        transition: all 0.3s;
     }
     
     .contact-bar a:hover {
         color: #6C63FF;
+        transform: translateY(-2px);
     }
     
-    .contact-icon {
-        margin-right: 0.5rem;
-    }
-    
-    /* === SECTION TITLES === */
     .section-title {
         font-size: 2.2rem;
         font-weight: 800;
@@ -202,7 +238,6 @@ st.markdown("""
         border-radius: 2px;
     }
     
-    /* === EXPERIENCE CARDS === */
     .exp-card {
         background: rgba(255,255,255,0.03);
         padding: 1.8rem 2rem;
@@ -211,13 +246,15 @@ st.markdown("""
         border: 1px solid rgba(255,255,255,0.06);
         border-left: 4px solid #6C63FF;
         backdrop-filter: blur(10px);
-        transition: all 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        cursor: default;
     }
     
     .exp-card:hover {
         background: rgba(255,255,255,0.06);
-        transform: translateX(8px);
+        transform: translateX(10px) scale(1.01);
         border-color: rgba(108, 99, 255, 0.3);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
     }
     
     .exp-card h3 {
@@ -249,9 +286,13 @@ st.markdown("""
         color: #b0b0c0;
         line-height: 1.7;
         margin-bottom: 0.3rem;
+        list-style-type: '▸ ';
     }
     
-    /* === PROJECT CARDS === */
+    .exp-card li::marker {
+        color: #6C63FF;
+    }
+    
     .project-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -261,6 +302,9 @@ st.markdown("""
     @media (max-width: 768px) {
         .project-grid {
             grid-template-columns: 1fr;
+        }
+        .stat-grid {
+            grid-template-columns: 1fr 1fr;
         }
     }
     
@@ -274,6 +318,7 @@ st.markdown("""
         height: 100%;
         position: relative;
         overflow: hidden;
+        cursor: default;
     }
     
     .project-card::before {
@@ -289,7 +334,7 @@ st.markdown("""
     }
     
     .project-card:hover {
-        transform: translateY(-8px) scale(1.01);
+        transform: translateY(-8px) scale(1.02);
         border-color: rgba(108, 99, 255, 0.3);
         box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     }
@@ -326,17 +371,17 @@ st.markdown("""
         font-size: 0.9rem;
         text-decoration: none;
         margin-right: 1.5rem;
-        transition: color 0.3s;
+        transition: all 0.3s;
         position: relative;
         z-index: 1;
+        display: inline-block;
     }
     
     .project-links a:hover {
         color: #a78bfa;
-        text-decoration: underline;
+        transform: translateX(3px);
     }
     
-    /* === SKILLS === */
     .skill-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -348,6 +393,13 @@ st.markdown("""
         padding: 1.2rem 1.5rem;
         border-radius: 12px;
         border: 1px solid rgba(255,255,255,0.06);
+        transition: all 0.3s;
+    }
+    
+    .skill-category:hover {
+        background: rgba(255,255,255,0.06);
+        border-color: rgba(108, 99, 255, 0.2);
+        transform: translateY(-3px);
     }
     
     .skill-category h5 {
@@ -369,14 +421,15 @@ st.markdown("""
         margin: 0.15rem;
         border: 1px solid rgba(108, 99, 255, 0.15);
         transition: all 0.3s;
+        cursor: default;
     }
     
     .skill-tag:hover {
         background: rgba(108, 99, 255, 0.2);
-        transform: scale(1.05);
+        transform: scale(1.08) rotate(-2deg);
+        border-color: rgba(108, 99, 255, 0.3);
     }
     
-    /* === CERTIFICATIONS === */
     .cert-grid {
         display: flex;
         flex-wrap: wrap;
@@ -391,22 +444,29 @@ st.markdown("""
         border: 1px solid rgba(255,255,255,0.06);
         color: #b0b0c0;
         transition: all 0.3s;
+        cursor: default;
     }
     
     .cert-badge:hover {
         background: rgba(108, 99, 255, 0.1);
         border-color: rgba(108, 99, 255, 0.2);
         color: #fff;
-        transform: translateY(-2px);
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 5px 20px rgba(108, 99, 255, 0.1);
     }
     
-    /* === EDUCATION === */
     .edu-card {
         background: rgba(255,255,255,0.03);
         padding: 1.5rem 2rem;
         border-radius: 16px;
         border: 1px solid rgba(255,255,255,0.06);
         backdrop-filter: blur(10px);
+        transition: all 0.3s;
+    }
+    
+    .edu-card:hover {
+        border-color: rgba(108, 99, 255, 0.2);
+        transform: translateX(5px);
     }
     
     .edu-card h3 {
@@ -425,7 +485,6 @@ st.markdown("""
         font-size: 1.1rem;
     }
     
-    /* === FOOTER === */
     .footer {
         text-align: center;
         color: #555;
@@ -438,9 +497,13 @@ st.markdown("""
     .footer a {
         color: #6C63FF;
         text-decoration: none;
+        transition: color 0.3s;
     }
     
-    /* === SCROLLBAR === */
+    .footer a:hover {
+        color: #a78bfa;
+    }
+    
     ::-webkit-scrollbar {
         width: 8px;
     }
@@ -455,7 +518,6 @@ st.markdown("""
         background: #8B5CF6;
     }
     
-    /* === RESPONSIVE === */
     @media (max-width: 768px) {
         .hero h1 {
             font-size: 2.8rem;
@@ -470,6 +532,33 @@ st.markdown("""
             gap: 0.8rem 1.5rem;
             padding: 1rem;
         }
+        .stat-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+        }
+        .stat-number {
+            font-size: 2rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .hero h1 {
+            font-size: 2.2rem;
+        }
+        .btn-primary, .btn-secondary {
+            padding: 0.7rem 1.8rem;
+            font-size: 0.9rem;
+        }
+        .stat-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+        .stat-card {
+            padding: 1rem;
+        }
+        .stat-number {
+            font-size: 1.6rem;
+        }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -477,7 +566,7 @@ st.markdown("""
 # --- ANIMATED BACKGROUND ---
 st.markdown('<div class="bg-glow"></div>', unsafe_allow_html=True)
 
-# --- HERO SECTION ---
+# --- HERO ---
 st.markdown("""
 <div class="hero">
     <div class="hero-badge">✦ Available for Remote Roles</div>
@@ -489,26 +578,49 @@ st.markdown("""
     </p>
     <div class="btn-group">
         <a href="#projects" class="btn-primary">🚀 View My Work</a>
-        <a href="mailto:anamaleena0@gmail.com" class="btn-secondary">✉️ Contact Me</a>
+        <a href="#contact" class="btn-secondary">✉️ Contact Me</a>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# --- STATS ---
+st.markdown("""
+<div class="stat-grid">
+    <div class="stat-card">
+        <div class="stat-number">3+</div>
+        <div class="stat-label">Internships</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number pink">7</div>
+        <div class="stat-label">Live Projects</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number orange">13+</div>
+        <div class="stat-label">Certifications</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number green">9.1</div>
+        <div class="stat-label">GPA / 10</div>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
 # --- CONTACT BAR ---
 st.markdown("""
-<div class="contact-bar">
-    <span><span class="contact-icon">📧</span> <a href="mailto:anamaleena0@gmail.com">anamaleena0@gmail.com</a></span>
-    <span><span class="contact-icon">📱</span> +91 9175797672</span>
-    <span><span class="contact-icon">📍</span> Nanded, Maharashtra · Remote</span>
-    <span><span class="contact-icon">🔗</span> <a href="https://github.com/anam-aleena" target="_blank">GitHub</a></span>
-    <span><span class="contact-icon">📊</span> <a href="https://public.tableau.com/app/profile/aleena.anam" target="_blank">Tableau</a></span>
+<div class="contact-bar" id="contact">
+    <span>📧 <a href="mailto:anamaleena0@gmail.com">anamaleena0@gmail.com</a></span>
+    <span>📱 +91 9175797672</span>
+    <span>📍 Nanded, Maharashtra · Remote</span>
+    <span>🔗 <a href="https://github.com/anam-aleena" target="_blank">GitHub</a></span>
+    <span>📊 <a href="https://public.tableau.com/app/profile/aleena.anam" target="_blank">Tableau</a></span>
+    <span>💼 <a href="https://www.linkedin.com/in/aleena-anam-2056a4368/" target="_blank">LinkedIn</a></span>
 </div>
 """, unsafe_allow_html=True)
 
 st.markdown("---")
 
 # --- ABOUT ---
-st.markdown('<p class="section-title">✦ About Me</p>', unsafe_allow_html=True)
+st.markdown('<div class="section-title">✦ About Me</div>', unsafe_allow_html=True)
 st.markdown("""
 <div style="color: #c0c0d0; font-size: 1.05rem; line-height: 1.9; max-width: 900px;">
     I'm an AI/ML Engineer and Data Scientist with hands-on experience building, deploying, and 
@@ -521,7 +633,7 @@ st.markdown("""
     using LangChain + FAISS + Gemini 2.5 Flash. Published a Tableau dashboard revealing 
     <strong style="color: #f472b6;">99.5% complaint-churn correlation</strong> across 10,000 banking customers.
     <br><br>
-    <span style="background: rgba(108,99,255,0.1); padding: 0.3rem 1.5rem; border-radius: 50px; border: 1px solid rgba(108,99,255,0.15);">
+    <span style="background: rgba(108,99,255,0.1); padding: 0.3rem 1.5rem; border-radius: 50px; border: 1px solid rgba(108,99,255,0.15); display: inline-block;">
         🎓 GPA: 9.1/10 · 13+ certifications in AI Agents, LLMs, and GenAI
     </span>
 </div>
@@ -530,7 +642,7 @@ st.markdown("""
 st.markdown("---")
 
 # --- EXPERIENCE ---
-st.markdown('<p class="section-title">✦ Experience</p>', unsafe_allow_html=True)
+st.markdown('<div class="section-title">✦ Experience</div>', unsafe_allow_html=True)
 
 exp_data = [
     {
@@ -565,21 +677,20 @@ exp_data = [
 ]
 
 for exp in exp_data:
+    points_html = "".join([f"<li>{point}</li>" for point in exp["points"]])
     st.markdown(f"""
     <div class="exp-card">
         <h3>{exp['title']}</h3>
         <div class="company">{exp['company']}</div>
         <div class="date">{exp['date']}</div>
-        <ul>
-            {"".join([f"<li>{point}</li>" for point in exp['points']])}
-        </ul>
+        <ul>{points_html}</ul>
     </div>
     """, unsafe_allow_html=True)
 
 st.markdown("---")
 
 # --- PROJECTS ---
-st.markdown('<p class="section-title" id="projects">✦ Live Projects</p>', unsafe_allow_html=True)
+st.markdown('<div class="section-title" id="projects">✦ Live Projects</div>', unsafe_allow_html=True)
 
 projects = [
     {
@@ -620,7 +731,6 @@ projects = [
     }
 ]
 
-# Display projects in a grid
 st.markdown('<div class="project-grid">', unsafe_allow_html=True)
 for project in projects:
     links_html = "".join([f'<a href="{link[1]}" target="_blank">{link[0]}</a>' for link in project["links"]])
@@ -637,7 +747,7 @@ st.markdown('</div>', unsafe_allow_html=True)
 st.markdown("---")
 
 # --- SKILLS ---
-st.markdown('<p class="section-title">✦ Technical Skills</p>', unsafe_allow_html=True)
+st.markdown('<div class="section-title">✦ Technical Skills</div>', unsafe_allow_html=True)
 
 skills = {
     "🧠 ML & Modeling": ["Scikit-learn", "XGBoost", "Random Forest", "Logistic Regression", "Classification", "Regression", "Clustering", "Cross-Validation", "ROC-AUC", "SMOTE", "Feature Engineering"],
@@ -661,7 +771,7 @@ st.markdown('</div>', unsafe_allow_html=True)
 st.markdown("---")
 
 # --- CERTIFICATIONS ---
-st.markdown('<p class="section-title">✦ Certifications</p>', unsafe_allow_html=True)
+st.markdown('<div class="section-title">✦ Certifications</div>', unsafe_allow_html=True)
 
 certs = [
     "AI Agents Intensive — Google/Kaggle",
@@ -684,7 +794,7 @@ st.markdown(f'<div class="cert-grid">{cert_html}</div>', unsafe_allow_html=True)
 st.markdown("---")
 
 # --- EDUCATION ---
-st.markdown('<p class="section-title">✦ Education</p>', unsafe_allow_html=True)
+st.markdown('<div class="section-title">✦ Education</div>', unsafe_allow_html=True)
 st.markdown("""
 <div class="edu-card">
     <h3>B.Sc. Computer Science</h3>
